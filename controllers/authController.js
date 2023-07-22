@@ -1,6 +1,15 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+require('dotenv').config();
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: process.env.SENDGRID_API_KEY
+    }
+}))
 
 const handleRegister = async (req, res) => {
     const { email, password } = req.body;
@@ -28,6 +37,12 @@ const handleRegister = async (req, res) => {
         console.log(newUser);
         await newUser.save();
         res.status(201).json({ message: 'User created successfully' });
+        return transporter.sendMail({
+            to: email,
+            from: process.env.SENDER_EMAIL,
+            subject: 'Verify your email',
+            html: `<h1>Verification code: ${verificationCode}</h1>`
+        })
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -68,7 +83,7 @@ const handleLogin = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '1h' }
     );
-    
+
     // Send the token to the client
     res.status(200).json({ result: existingUser, token });
 }
