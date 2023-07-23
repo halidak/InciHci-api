@@ -16,9 +16,18 @@ const registerRouter = require('./routes/auth/register');
 const verifyRouter = require('./routes/auth/verify');
 const loginRouter = require('./routes/auth/login');
 
+//products
+const createProductRouter = require('./routes/products/create');
+const getAllRouter = require('./routes/products/getAll');
+
+//auth
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/verify', verifyRouter);
+
+//products
+app.use('/createProduct', createProductRouter);
+app.use('/getAllProducts', getAllRouter)
 
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3000;

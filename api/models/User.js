@@ -30,7 +30,13 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    refreshCode: Number
+    refreshCode: Number,
+    products: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Product'
+        }
+    ]
 })
 
 module.exports = mongoose.model('User', userSchema);
