@@ -32,6 +32,11 @@ const getTypesRoute = require('./routes/type/getAll');
 const addRatingRoute = require('./routes/rating/addRating');
 const averateRoute = require('./routes/rating/averageRating');
 
+//like
+const addLikeRoute = require('./routes/like/addLike');
+const likeCountRoute = require('./routes/like/likeCount');
+const removeLikeRoute = require('./routes/like/removeLike');
+
 //auth
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
@@ -52,6 +57,11 @@ app.use('/getTypes', getTypesRoute);
 //rating
 app.use('/addRating', addRatingRoute);
 app.use('/averageRating', averateRoute);
+
+//like
+app.use('/addLike', addLikeRoute);
+app.use('/likeCount', likeCountRoute);
+app.use('/removeLike', removeLikeRoute);
 
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3000;
