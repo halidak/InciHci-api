@@ -19,7 +19,11 @@ const productSchema = new Schema({
     type: {
         type: Schema.Types.ObjectId,
         ref: 'Type'
-    }
+    },
+    ratings: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Rating'
+    }]
 });
 
 module.exports = mongoose.model('Product', productSchema);

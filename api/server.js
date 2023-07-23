@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-// Import and use the router
+//auth
 const registerRouter = require('./routes/auth/register');
 const verifyRouter = require('./routes/auth/verify');
 const loginRouter = require('./routes/auth/login');
@@ -28,6 +28,10 @@ const getProductyByTypeRouter = require('./routes/products/getByType');
 const createTypeRoute = require('./routes/type/addType');
 const getTypesRoute = require('./routes/type/getAll');
 
+//rating
+const addRatingRoute = require('./routes/rating/addRating');
+const averateRoute = require('./routes/rating/averageRating');
+
 //auth
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
@@ -41,10 +45,13 @@ app.use('/deleteProduct', deleteRoute);
 app.use('/updateProduct', updateByIdRoute);
 app.use('/getByType', getProductyByTypeRouter);
 
-
 //type
 app.use('/createType', createTypeRoute);
 app.use('/getTypes', getTypesRoute);
+
+//rating
+app.use('/addRating', addRatingRoute);
+app.use('/averageRating', averateRoute);
 
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3000;

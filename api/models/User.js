@@ -36,7 +36,11 @@ const userSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Product'
         }
-    ]
+    ],
+    ratings: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Rating'
+    }]
 })
 
 module.exports = mongoose.model('User', userSchema);
