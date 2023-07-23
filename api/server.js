@@ -19,6 +19,9 @@ const loginRouter = require('./routes/auth/login');
 //products
 const createProductRouter = require('./routes/products/create');
 const getAllRouter = require('./routes/products/getAll');
+const getByIdRoute = require('./routes/products/getById');
+const deleteRoute = require('./routes/products/delete');
+const updateByIdRoute = require('./routes/products/update');
 
 //auth
 app.use('/register', registerRouter);
@@ -27,7 +30,10 @@ app.use('/verify', verifyRouter);
 
 //products
 app.use('/createProduct', createProductRouter);
-app.use('/getAllProducts', getAllRouter)
+app.use('/getAllProducts', getAllRouter);
+app.use('/getById', getByIdRoute);
+app.use('/deleteProduct', deleteRoute);
+app.use('/updateProduct', updateByIdRoute);
 
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3000;
