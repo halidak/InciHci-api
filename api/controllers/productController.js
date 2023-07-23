@@ -7,7 +7,8 @@ const addProduct = async (req, res) => {
             image: req.body.image,
             description: req.body.description,
             barCode: req.body.barCode,
-            user: req.body.user
+            user: req.body.user,
+            type: req.body.type
         });
         const result = await product.save();
         res.status(201).json({
@@ -93,10 +94,24 @@ const updateById = async (req, res) => {
     }
 }
 
+const getProductsByType = async (req, res) => {
+    try {
+        const typeId = req.params.typeId;
+        const products = await Product.find({ type: typeId });
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error fetching products',
+            error: err
+        });
+    }
+}
+
 module.exports = {
     addProduct,
     getAll,
     getById,
     deleteProduct,
-    updateById
+    updateById,
+    getProductsByType
 }

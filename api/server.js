@@ -22,6 +22,11 @@ const getAllRouter = require('./routes/products/getAll');
 const getByIdRoute = require('./routes/products/getById');
 const deleteRoute = require('./routes/products/delete');
 const updateByIdRoute = require('./routes/products/update');
+const getProductyByTypeRouter = require('./routes/products/getByType');
+
+//type
+const createTypeRoute = require('./routes/type/addType');
+const getTypesRoute = require('./routes/type/getAll');
 
 //auth
 app.use('/register', registerRouter);
@@ -34,6 +39,12 @@ app.use('/getAllProducts', getAllRouter);
 app.use('/getById', getByIdRoute);
 app.use('/deleteProduct', deleteRoute);
 app.use('/updateProduct', updateByIdRoute);
+app.use('/getByType', getProductyByTypeRouter);
+
+
+//type
+app.use('/createType', createTypeRoute);
+app.use('/getTypes', getTypesRoute);
 
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3000;
