@@ -40,7 +40,11 @@ const userSchema = new Schema({
     ratings: [{
         type: Schema.Types.ObjectId,
         ref: 'Rating'
+    }],
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Like'
     }]
-})
+});
 
 module.exports = mongoose.model('User', userSchema);

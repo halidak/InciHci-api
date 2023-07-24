@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const Like = require('../models/Like');
+const User = require('../models/User'); 
 
 const addLike = async (req, res) => {
     try {
@@ -12,6 +13,7 @@ const addLike = async (req, res) => {
         // Ako postoji lajk, obrisi ga
         if (existingLike) {
             await Like.findByIdAndDelete(existingLike._id);
+            await User.findByIdAndUpdate(userId, { $pull: { likes: productId } });
             return res.json({ message: 'Like removed', like: existingLike });
         }
 
@@ -27,17 +29,23 @@ const addLike = async (req, res) => {
         });
 
         const result = await like.save();
+
+        // Ažurirajte User dokument dodavanjem ObjectId-a lajkovanog proizvoda u polje `likes`
+        await User.findByIdAndUpdate(userId, { $addToSet: { likes: productId } });
+        
         res.status(201).json({
             message: 'Like created',
             like: result
         });
     } catch (err) {
+        console.error('Greška pri obradi lajka:', err);
         res.status(500).json({
             message: 'Error processing like',
             error: err
         });
     }
 }
+
 
 
 const getLikes = async (req, res) => {
@@ -66,7 +74,7 @@ const getLikes = async (req, res) => {
 const removeLike = async (req, res) => {
     try {
         const productId = req.body.product;
-        const userId = req.body.user;
+        const userId = req.body.userId;
 
         const like = await Like.findOneAndDelete({ product: productId, user: userId });
 

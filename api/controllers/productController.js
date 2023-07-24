@@ -1,4 +1,6 @@
 const Product = require('../models/Product');
+const User = require('../models/User');
+const Like = require('../models/Like');
 
 const addProduct = async (req, res) => {
     try {
@@ -107,11 +109,49 @@ const getProductsByType = async (req, res) => {
     }
 }
 
+const allUserProducts = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const products = await Product.find({ user: userId });
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error fetching products',
+            error: err
+        });
+    }
+}
+
+const likedProducts = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        
+        const likes = await Like.find({ user: userId }).populate('product');
+        let productIdsArray = [];
+        likes.forEach((like) => {
+            productIdsArray.push(like.product._id);
+        });
+        const products = await Product.find({ _id: { $in: productIdsArray } });
+        res.json({ likedProducts: products });
+
+    } catch (err) {
+        console.error('Error fetching products:', err);
+        res.status(500).json({
+            message: 'Error fetching products',
+            error: err
+        });
+    }
+}
+
+
+
 module.exports = {
     addProduct,
     getAll,
     getById,
     deleteProduct,
     updateById,
-    getProductsByType
+    getProductsByType,
+    allUserProducts,
+    likedProducts
 }

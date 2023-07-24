@@ -23,6 +23,8 @@ const getByIdRoute = require('./routes/products/getById');
 const deleteRoute = require('./routes/products/delete');
 const updateByIdRoute = require('./routes/products/update');
 const getProductyByTypeRouter = require('./routes/products/getByType');
+const userProductRoute = require('./routes/products/userProducts');
+const likedProductRoute = require('./routes/products/likedProducts');
 
 //type
 const createTypeRoute = require('./routes/type/addType');
@@ -49,6 +51,8 @@ app.use('/getById', getByIdRoute);
 app.use('/deleteProduct', deleteRoute);
 app.use('/updateProduct', updateByIdRoute);
 app.use('/getByType', getProductyByTypeRouter);
+app.use('/userProducts', userProductRoute);
+app.use('/likedProducts', likedProductRoute);
 
 //type
 app.use('/createType', createTypeRoute);
