@@ -30,6 +30,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    // image: String,
     refreshCode: Number,
     products: [
         {
@@ -44,6 +45,10 @@ const userSchema = new Schema({
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'Like'
+    }],
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
     }]
 });
 

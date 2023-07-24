@@ -35,6 +35,10 @@ const productSchema = new Schema({
     compositions: [{
         type: Schema.Types.ObjectId,
         ref: 'Composition'
+    }],
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
     }]
 });
 

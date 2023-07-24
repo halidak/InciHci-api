@@ -29,6 +29,7 @@ const addProduct = async (req, res) => {
 const getAll = async (req, res) => {
     try {
         const products = await Product.find({});
+        
         res.json(products);
     } catch (err) {
         res.status(500).json({
@@ -42,7 +43,11 @@ const getById = async (req, res) => {
     try {
         const productId = req.params.productId;
         console.log('Product ID:', productId);
-        const product = await Product.findById(productId);
+        const product = await Product.findById(productId).populate('comments')
+        .populate('compositions')
+        .populate('ratings') 
+        .populate('user') 
+        .exec();
         
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
