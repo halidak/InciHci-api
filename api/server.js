@@ -39,6 +39,10 @@ const addLikeRoute = require('./routes/like/addLike');
 const likeCountRoute = require('./routes/like/likeCount');
 const removeLikeRoute = require('./routes/like/removeLike');
 
+//composition
+const addCompositionRoute = require('./routes/composition/add');
+const getCompositionsRoute = require('./routes/composition/getByProduct'); 
+
 //auth
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
@@ -66,6 +70,10 @@ app.use('/averageRating', averateRoute);
 app.use('/addLike', addLikeRoute);
 app.use('/likeCount', likeCountRoute);
 app.use('/removeLike', removeLikeRoute);
+
+//composition
+app.use('/addComposition', addCompositionRoute);
+app.use('/getCompositions', getCompositionsRoute);
 
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3000;

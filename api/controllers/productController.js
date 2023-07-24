@@ -10,7 +10,8 @@ const addProduct = async (req, res) => {
             description: req.body.description,
             barCode: req.body.barCode,
             user: req.body.user,
-            type: req.body.type
+            type: req.body.type,
+            company: req.body.company
         });
         const result = await product.save();
         res.status(201).json({

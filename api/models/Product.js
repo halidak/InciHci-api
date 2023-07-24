@@ -20,6 +20,10 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Type'
     },
+    company: {
+        type: String,
+        required: true
+    },
     ratings: [{
         type: Schema.Types.ObjectId,
         ref: 'Rating'
@@ -27,6 +31,10 @@ const productSchema = new Schema({
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'Like'
+    }],
+    compositions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Composition'
     }]
 });
 
