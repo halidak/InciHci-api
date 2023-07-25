@@ -15,6 +15,9 @@ app.use(cors());
 const registerRouter = require('./routes/auth/register');
 const verifyRouter = require('./routes/auth/verify');
 const loginRouter = require('./routes/auth/login');
+const getUserByIdRoute = require('./routes/auth/getById');
+const updateUserRoute = require('./routes/auth/update');
+const deleteUserRoute = require('./routes/auth/delete');
 
 //products
 const createProductRouter = require('./routes/products/create');
@@ -53,6 +56,9 @@ const getAllCommentsRoute = require('./routes/comment/getAll');
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/verify', verifyRouter);
+app.use('/getById', getUserByIdRoute);
+app.use('/update', updateUserRoute);
+app.use('/delete', deleteUserRoute);
 
 //products
 app.use('/createProduct', createProductRouter);

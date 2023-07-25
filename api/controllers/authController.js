@@ -49,11 +49,8 @@ const handleRegister = async (req, res) => {
 }
 
 const handleLogin = async (req, res) => {
-    // Get the user's credentials from request body
     const { email, password } = req.body;
 
-    // Check if the user exists in the database
-    //or not using findOne method of mongoose model
     let existingUser = null;
     try {
         existingUser = await User.findOne({ email })
@@ -61,23 +58,18 @@ const handleLogin = async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 
-    // If the user does not exist, return an error
     if (!existingUser)
         return res.status(404).json({ message: 'User does not exist' });
 
-     // Check if the user is verified
     if (!existingUser.verified) {
         return res.status(403).json({ message: 'User is not verified' });
     }
     
-    // If the user exists, check if the password is correct
     const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
-    // If the password is incorrect, return an error
     if (!isPasswordCorrect)
         return res.status(400).json({ message: 'Invalid credentials' });
 
-    // If the password is correct, create a JWT token
     const token = jwt.sign(
         { email: existingUser.email, id: existingUser._id },
         process.env.ACCESS_TOKEN_SECRET,
@@ -108,10 +100,73 @@ const handleVerify = async (req, res) => {
     }
   };
 
+const getUserById = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        console.log('getUserById:', userId);
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error fetching product',
+            error: err
+        });
+    }
+}
+
+const updateUser = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        req.body,
+        { new: true }
+      );
+  
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.json({ message: 'User updated successfully', updatedUser });
+    } catch (err) {
+      res.status(500).json({
+        message: 'Error updating user',
+        error: err
+      });
+    }
+  };
+
+  const deleteUser = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const deletedUser = await User.findByIdAndDelete(userId);
+  
+      if (!deletedUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.json({ message: 'User deleted successfully', deletedUser });
+    } catch (err) {
+      res.status(500).json({
+        message: 'Error deleting user',
+        error: err
+      });
+    }
+  }
+  
+
 module.exports = {
     handleRegister,
     handleLogin,
-    handleVerify
+    handleVerify,
+    getUserById,
+    updateUser,
+    deleteUser
 }
 
 

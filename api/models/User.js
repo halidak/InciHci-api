@@ -30,7 +30,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    // image: String,
+    image: String,
     refreshCode: Number,
     products: [
         {
