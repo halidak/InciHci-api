@@ -18,6 +18,9 @@ const loginRouter = require('./routes/auth/login');
 const getUserByIdRoute = require('./routes/auth/getById');
 const updateUserRoute = require('./routes/auth/update');
 const deleteUserRoute = require('./routes/auth/delete');
+const changePwdRoute = require('./routes/auth/changePwd');
+const resetPwdRoute = require('./routes/auth/reset');
+const sendCodeRoute = require('./routes/auth/sendCode');
 
 //products
 const createProductRouter = require('./routes/products/create');
@@ -59,6 +62,9 @@ app.use('/verify', verifyRouter);
 app.use('/getById', getUserByIdRoute);
 app.use('/update', updateUserRoute);
 app.use('/delete', deleteUserRoute);
+app.use('/changePwd', changePwdRoute);
+app.use('/resetPwd', resetPwdRoute);
+app.use('/sendCode', sendCodeRoute);
 
 //products
 app.use('/createProduct', createProductRouter);

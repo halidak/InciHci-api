@@ -158,6 +158,93 @@ const updateUser = async (req, res) => {
       });
     }
   }
+
+  const changePassword = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid old password' });
+    }
+
+    const passwordChanged = await user.changePassword(newPassword);
+
+    if (passwordChanged) {
+      return res.json({ message: 'Password changed successfully' });
+    } else {
+      return res.status(500).json({ message: 'Error changing password' });
+    }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Error deleting user',
+            error: err
+        });
+    }
+  }
+
+  const sendVerificationCode = async (req, res) => {
+    try {
+      const { email } = req.body;
+      const user = await User.findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      const verificationCode = Math.floor(10000 + Math.random() * 90000);
+      user.verificationCode = verificationCode;
+      await user.save();
+  
+      // Slanje koda za verifikaciju putem e-pošte
+      await transporter.sendMail({
+        to: email,
+        from: process.env.SENDER_EMAIL,
+        subject: 'Reset Password Verification Code',
+        html: `<h1>Your verification code: ${verificationCode}</h1>`
+      });
+  
+      res.json({ message: 'Verification code sent successfully' });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+  const resetPassword = async (req, res) => {
+    try {
+      const { email, verificationCode, newPassword } = req.body;
+      const user = await User.findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      if (user.verificationCode !== verificationCode) {
+        return res.status(401).json({ message: 'Invalid verification code' });
+      }
+  
+      // Promeni lozinku i sačuvaj korisnika
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+      user.password = hashedPassword;
+      user.verificationCode = undefined; // Očisti kod za verifikaciju
+      await user.save();
+  
+      res.json({ message: 'Password reset successful' });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  };
+  
   
 
 module.exports = {
@@ -166,7 +253,10 @@ module.exports = {
     handleVerify,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser,
+    changePassword,
+    sendVerificationCode,
+    resetPassword
 }
 
 

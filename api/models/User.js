@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     firstName: {
@@ -31,7 +32,7 @@ const userSchema = new Schema({
         required: true
     },
     image: String,
-    refreshCode: Number,
+    verificationCode: Number,
     products: [
         {
             type: Schema.Types.ObjectId,
@@ -51,5 +52,18 @@ const userSchema = new Schema({
         ref: 'Comment'
     }]
 });
+
+userSchema.methods.changePassword = async function(newPassword) {
+    try {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+      this.password = hashedPassword;
+      await this.save();
+      return true;
+    } catch (error) {
+      console.error('Error changing password:', error);
+      return false;
+    }
+  };
 
 module.exports = mongoose.model('User', userSchema);

@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../../controllers/authController');
 
-router.get('/:userId', authController.getUserById);
+router.put('/:userId', authController.changePassword);
 
 module.exports = router;
