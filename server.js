@@ -67,37 +67,37 @@ app.use('/resetPwd', resetPwdRoute);
 app.use('/sendCode', sendCodeRoute);
 
 //products
-app.use('/createProduct', createProductRouter);
-app.use('/getAllProducts', getAllRouter);
-app.use('/getById', getByIdRoute);
-app.use('/deleteProduct', deleteRoute);
-app.use('/updateProduct', updateByIdRoute);
-app.use('/getByType', getProductyByTypeRouter);
-app.use('/userProducts', userProductRoute);
-app.use('/likedProducts', likedProductRoute);
+app.use('/products/create', createProductRouter);
+app.use('/products/getAll', getAllRouter);
+app.use('/products/getById', getByIdRoute);
+app.use('/products/delete', deleteRoute);
+app.use('/products/update', updateByIdRoute);
+app.use('/products/getByType', getProductyByTypeRouter);
+app.use('/products/userProducts', userProductRoute);
+app.use('/products/likedProducts', likedProductRoute);
 
 //type
-app.use('/createType', createTypeRoute);
-app.use('/getTypes', getTypesRoute);
+app.use('/types/create', createTypeRoute);
+app.use('/types/getTypes', getTypesRoute);
 
 //rating
-app.use('/addRating', addRatingRoute);
-app.use('/averageRating', averateRoute);
+app.use('/ratings/addRating', addRatingRoute);
+app.use('/ratings/averageRating', averateRoute);
 
 //like
-app.use('/addLike', addLikeRoute);
-app.use('/likeCount', likeCountRoute);
-app.use('/removeLike', removeLikeRoute);
+app.use('/likes/addLike', addLikeRoute);
+app.use('/likes/likeCount', likeCountRoute);
+app.use('/likes/removeLike', removeLikeRoute);
 
 //composition
-app.use('/addComposition', addCompositionRoute);
-app.use('/getCompositions', getCompositionsRoute);
+app.use('/compositions/addComposition', addCompositionRoute);
+app.use('/compositions/getCompositions', getCompositionsRoute);
 
 //comment
-app.use('/addComment', addCommentRoute);
-app.use('/removeComment', removeCommentRoute);
-app.use('/getComments', getCommentsRoute);
-app.use('/getAllComments', getAllCommentsRoute);
+app.use('/comments/addComment', addCommentRoute);
+app.use('/comments/removeComment', removeCommentRoute);
+app.use('/comments/getComments', getCommentsRoute);
+app.use('/comments/getAllComments', getAllCommentsRoute);
 
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3000;
