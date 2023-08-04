@@ -60,27 +60,28 @@ const deleteComment = async (req, res) => {
 };
 
 const getCommentsForProduct = async (req, res) => {
-    try {
-      const productId = req.params.productId;
-  
-      const comments = await Comment.find({ product: productId })
-        .populate('user') 
-        .exec();
-  
-      if (comments.length === 0) {
-        return res.status(404).json({ message: 'No comments found for the product' });
-      }
-  
-      res.json(comments);
-  
-    } catch (err) {
-      console.error('Error fetching comments for the product:', err);
-      res.status(500).json({
-        message: 'Error fetching comments for the product',
-        error: err
-      });
-    }
-  };
+  try {
+    const productId = req.params.productId;
+
+    const comments = await Comment.find({ product: productId })
+      .populate('user') // Populate the 'user' field with the corresponding user documents
+      .populate('product') // Populate the 'product' field if needed
+      .exec();
+
+    // if (comments.length === 0) {
+    //   return res.status(404).json({ message: 'No comments found for the product' });
+    // }
+
+    res.json(comments);
+
+  } catch (err) {
+    console.error('Error fetching comments for the product:', err);
+    res.status(500).json({
+      message: 'Error fetching comments for the product',
+      error: err
+    });
+  }
+};
 
   const getAllComments = async (req, res) => {
     try {
