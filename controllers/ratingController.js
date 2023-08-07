@@ -67,7 +67,23 @@ const getAverageRating = async (req, res) => {
     }
 }
 
+const getRating = async (req, res) => {
+    try{
+        const productId = req.params.productId;
+        const ratings = await Rating.find({ product: productId });
+        res.json({
+            ratings
+        });
+        }catch (err) {
+            res.status(500).json({
+                message: 'Error fetching rating',
+                error: err
+            });
+        }
+}
+
 module.exports = {
     addRating,
-    getAverageRating
+    getAverageRating,
+    getRating
 }

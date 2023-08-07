@@ -39,6 +39,7 @@ const getTypesRoute = require('./routes/type/getAll');
 //rating
 const addRatingRoute = require('./routes/rating/addRating');
 const averateRoute = require('./routes/rating/averageRating');
+const getRatingRoute = require('./routes/rating/getRating');
 
 //like
 const addLikeRoute = require('./routes/like/addLike');
@@ -83,6 +84,7 @@ app.use('/types/getTypes', getTypesRoute);
 //rating
 app.use('/ratings/addRating', addRatingRoute);
 app.use('/ratings/averageRating', averateRoute);
+app.use('/ratings/get', getRatingRoute)
 
 //like
 app.use('/likes/addLike', addLikeRoute);
