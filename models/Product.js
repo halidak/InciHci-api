@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Comment = require('./Comment');
+const Like = require('./Like');
+
 
 const productSchema = new Schema({
     name: {
@@ -42,6 +45,20 @@ const productSchema = new Schema({
     }]
 });
 
+productSchema.pre('findOneAndDelete', async function (next) {
+    const product = this;
+    try {
+      const productId = product._conditions._id;
+
+      await Comment.deleteMany({ product: productId });
+      await Like.deleteMany({ product: productId });
+
+      next();
+    } catch (error) {
+      console.error('Error deleting associated data:', error);
+      next(error);
+    }
+});
 
 
 module.exports = mongoose.model('Product', productSchema);
