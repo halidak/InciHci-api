@@ -149,6 +149,34 @@ const likedProducts = async (req, res) => {
     }
 }
 
+//get products by barcode
+const getByBarcode = async (req, res) => {
+    try {
+      const barCode = req.params.barCode;
+      console.log('Product barcode:', barCode);
+  
+      const products = await Product.find({ barCode }).populate('comments')
+      .populate('compositions')
+      .populate('ratings') 
+      .populate('user') 
+      .exec();
+  
+      if (products.length === 0) {
+        return res.status(404).json({ message: 'Products not found for the given barcode' });
+      }
+  
+      res.json(products);
+    } catch (err) {
+        console.log(err);
+      res.status(500).json({
+        message: 'Error fetching products by barcode',
+        error: err
+      });
+    }
+  };
+  
+    
+
 
 
 module.exports = {
@@ -159,5 +187,6 @@ module.exports = {
     updateById,
     getProductsByType,
     allUserProducts,
-    likedProducts
+    likedProducts,
+    getByBarcode
 }

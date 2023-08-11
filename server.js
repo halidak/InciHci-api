@@ -31,6 +31,7 @@ const updateByIdRoute = require('./routes/products/update');
 const getProductyByTypeRouter = require('./routes/products/getByType');
 const userProductRoute = require('./routes/products/userProducts');
 const likedProductRoute = require('./routes/products/likedProducts');
+const barCodeRoute = require('./routes/products/getByBarcode');
 
 //type
 const createTypeRoute = require('./routes/type/addType');
@@ -76,6 +77,8 @@ app.use('/products/update', updateByIdRoute);
 app.use('/products/getByType', getProductyByTypeRouter);
 app.use('/products/userProducts', userProductRoute);
 app.use('/products/likedProducts', likedProductRoute);
+app.use('/products/barCode', barCodeRoute);
+
 
 //type
 app.use('/types/create', createTypeRoute);
